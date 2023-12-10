@@ -50,20 +50,21 @@ class OrderController extends Controller
      */
     public function show(order $order)
     {   
+
         $user=Auth::user();
         if ($user && $user->role_name == "User") {
-        $order= Order::find($order->id);
-        if (!$order||!$user) {
+            $order = Order::where('user_id', $user->id)->get();
+        if (!$order) {
             return response()->json([
                 'status' => 'Failed',
-                'message' => 'Product Not Found',
+                'message' => 'Order Not Found',
                 
             ]);
         }
         else{
             return response()->json([
                 'status' => 'success',
-                'message' => 'Product Found successfully',
+                'message' => 'Order Found successfully',
                 'product' => $order,
             ]);
         }
