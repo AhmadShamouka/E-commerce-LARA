@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ShoppinCard;
+use App\Models\ShoppingCard;
 use Illuminate\Http\Request;
 
-class ShoppinCardController extends Controller
+class ShoppingCardController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class ShoppinCardController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ShoppinCard $shoppinCard)
+    public function show(ShoppingCard $shoppingCard)
     {
         //
     }
@@ -42,7 +42,7 @@ class ShoppinCardController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ShoppinCard $shoppinCard)
+    public function edit(ShoppingCard $shoppingCard)
     {
         //
     }
@@ -50,7 +50,7 @@ class ShoppinCardController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ShoppinCard $shoppinCard)
+    public function update(Request $request, ShoppingCard $shoppingCard)
     {
         //
     }
@@ -58,7 +58,7 @@ class ShoppinCardController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ShoppinCard $shoppinCard)
+    public function destroy(ShoppingCard $shoppingCard)
     {
         //
     }
