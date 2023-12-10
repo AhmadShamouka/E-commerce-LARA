@@ -2,64 +2,101 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
+use App\Models\order;
 use Illuminate\Http\Request;
-
+use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 class OrderController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+{  
+    public function __construct()
     {
-        //
+        $this->middleware('auth:api');
     }
+ 
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function create(Request $request,$idproduct)
     {
-        //
+        $request->validate([
+            'quantity' => 'required',
+        ]);
+    
+        $user=Auth::user();
+        $product = Product::find($idproduct);
+    
+        if ($user && $user->role_name == "User" && $product) {
+            $order = Order::create([
+                'quantity' => $request->quantity,
+                'total' => $request->quantity * $product->price,
+                'user_id' => $user->id,
+                'product_id' => $product->id,
+            ]);
+    
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Order created successfully',
+                'order' => $order,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'User not found or does not have the required role, or product not found',
+            ]);
+        }
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
+    
+    
     /**
      * Display the specified resource.
      */
-    public function show(Order $order)
-    {
-        //
+    public function show(order $order)
+    {   
+        $user=Auth::user();
+        if ($user && $user->role_name == "User") {
+        $order= Order::find($order->id);
+        if (!$order||!$user) {
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Product Not Found',
+                
+            ]);
+        }
+        else{
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Product Found successfully',
+                'product' => $order,
+            ]);
+        }
     }
+}
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Order $order)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Order $order)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Order $order)
+    public function destroy($id)
     {
-        //
+        $user=Auth::user();
+        $order = order::find($id);
+        if ($order && $user) {
+            $order->delete();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Order deleted successfully',
+                'product' => $order,
+            ]);
+            }
+            else{
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Not Found',
+
+            ]);
+            }
+         
     }
 }
