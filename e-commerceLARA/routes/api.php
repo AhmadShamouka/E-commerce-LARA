@@ -28,5 +28,5 @@ Route::put('/updateproduct/{id}/', [ProductController::class,'update']);
 Route::delete('/deleteproduct/{id}/', [ProductController::class,'delete']);
 
 
-Route::post("/setOrderhistory", [OrderHistoryController::class,'create']);
-Route::post("/getOrderhistory", [OrderHistoryController::class,'show']);
+Route::post("/orderhistory", [OrderHistoryController::class,'create']);
+Route::post("/getorderhistory", [OrderHistoryController::class,'show']);
