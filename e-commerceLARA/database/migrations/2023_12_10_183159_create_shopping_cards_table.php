@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('shopping_cards', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('product_id')->unsigned();
+            $table->foreign('product_id')->references('id')->on('products');
+            $table->integer('quantity');
+            $table->integer('total_price');
             $table->timestamps();
         });
     }
