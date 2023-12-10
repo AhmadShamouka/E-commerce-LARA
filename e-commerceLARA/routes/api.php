@@ -27,7 +27,7 @@ Route::get("getorders", [OrderController::class,'show']);
 Route::get("/products", [ProductController::class, 'index']);
 Route::post("/getproduct/{id}", [ProductController::class, 'show']);
 Route::post("/insertproduct", [ProductController::class, 'create']);
-Route::put('/updateproduct/{id}/', [ProductController::class,'update']);
+Route::put('/updateproduct/{id}', [ProductController::class,'updateProduct']);
 Route::delete('/deleteproduct/{id}/', [ProductController::class,'delete']);
 
 

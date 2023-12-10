@@ -100,8 +100,14 @@ class ProductController extends Controller
 
 
 
-    public function update(Request $request,$idproduct)
+    public function updateProduct(Request $request, $productId)
     {
+        $user = Auth::user();
+    
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+    
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
@@ -109,26 +115,30 @@ class ProductController extends Controller
             'quantity' => 'required',
         ]);
     
-        $user=Auth::user();
-        $product = Product::find($idproduct);
-        $product->name = $request->name;
-        $product->description = $request->description;
-        $product->price = $request->price;
-        $product->quantity = $request->quantity;
-        $product->save();
-        if (!$product || !$user) {
+        $product = Product::find($productId);
+    
+        if (!$product) {
             return response()->json([
                 'status' => 'Failed',
                 'message' => 'Product Not Found',
             ]);
-        } else {
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Product updated successfully',
-                'product' => $product,
-            ]);
         }
+    
+        $product->name = $request->input('name');
+        $product->description = $request->input('description');
+        $product->price = $request->input('price');
+        $product->quantity = $request->input('quantity');
+    
+        $product->save();
+    
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Product updated successfully',
+            'product' => $product,
+        ]);
     }
+    
+    
     public function delete($idproduct)
     {
         $user=Auth::user();
